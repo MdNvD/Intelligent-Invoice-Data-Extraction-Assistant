@@ -3,3 +3,6 @@ PyMuPDF
 pandas
 openpyxl
 python-dotenv
+pytesseract
+pdf2image
+Pillow

@@ -1,14 +1,11 @@
 import fitz
+from ocr_reader import extract_text_using_ocr
+
 
 def extract_text_from_pdf(pdf_path):
     """
-    Extracts text from a PDF file.
-
-    Args:
-        pdf_path (str): Path to the PDF file
-
-    Returns:
-        str: Extracted text
+    Extract text from a PDF.
+    If no embedded text is found, automatically use OCR.
     """
 
     text = ""
@@ -21,7 +18,22 @@ def extract_text_from_pdf(pdf_path):
 
         document.close()
 
+        # If PyMuPDF extracted text, return it
+        if text.strip():
+            print("✓ Text extracted using PyMuPDF.")
+            return text
+
+        print("No embedded text found.")
+        print("Switching to OCR...")
+
+        text = extract_text_using_ocr(pdf_path)
+
+        print("✓ Text extracted using OCR.")
+
+        return text
+
     except Exception as e:
         print(f"Error reading PDF: {e}")
+        print("Using OCR...")
 
-    return text
+        return extract_text_using_ocr(pdf_path)

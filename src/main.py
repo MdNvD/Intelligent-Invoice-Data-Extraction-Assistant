@@ -24,8 +24,22 @@ def main():
     # Initialize Gemini Client
     client = genai.Client(api_key=api_key)
 
-    # Invoice PDF Path
-    pdf_path = "invoices/sample_invoice.pdf"
+    # Choose invoice
+    print("\nAvailable invoices:")
+    print("1. sample_invoice.pdf (Digital PDF - PyMuPDF)")
+    print("2. sample_invoice_for_ocr.pdf (OCR Test PDF)")
+
+    choice = input("\nEnter your choice (1 or 2): ")
+
+    if choice == "1":
+        pdf_path = "invoices/sample_invoice.pdf"
+
+    elif choice == "2":
+        pdf_path = "invoices/sample_invoice_for_ocr.pdf"
+
+    else:
+        print("Invalid choice.")
+        return
 
     # Check if PDF exists
     if not os.path.exists(pdf_path):
@@ -36,13 +50,17 @@ def main():
     print("=" * 70)
 
     # Step 1
-    print("\n[1/4] Reading PDF...")
+    print("\n[1/4] Reading Invoice...")
+
     invoice_text = extract_text_from_pdf(pdf_path)
-    print("✓ PDF text extracted successfully.")
+
+    print("✓ Invoice text extracted successfully.")
 
     # Step 2
     print("\n[2/4] Sending invoice to Gemini AI...")
+
     invoice_data = extract_invoice_data(client, invoice_text)
+
     print("✓ Invoice data extracted successfully.")
 
     # Step 3
@@ -58,7 +76,9 @@ def main():
 
     # Step 4
     print("\n[3/4] Saving CSV and Excel...")
+
     save_invoice(invoice_data)
+
     print("✓ Files saved successfully.")
 
     print("\n" + "=" * 70)

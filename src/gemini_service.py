@@ -1,7 +1,7 @@
 import json
 import time
 
-MODEL_NAME = "gemini-2.5-flash-lite"
+MODEL_NAME = "gemini-2.5-flash"
 
 
 def extract_invoice_data(client, invoice_text):
